@@ -1,0 +1,32 @@
+-- Sample SQL Queries for Nura Tracker (assuming data in a table called orders)
+
+-- Top Restaurants by Revenue
+SELECT restaurant_name, SUM(order_value) AS total_revenue
+FROM orders
+GROUP BY restaurant_name
+ORDER BY total_revenue DESC
+LIMIT 10;
+
+-- Campaign Effectiveness (Revenue per Campaign)
+SELECT campaign_id, SUM(order_value) AS revenue, COUNT(order_id) AS orders
+FROM orders
+WHERE campaign_id IS NOT NULL
+GROUP BY campaign_id
+ORDER BY revenue DESC;
+
+-- Repeat Customers Analysis
+SELECT is_repeat_customer, COUNT(customer_id) AS customer_count, AVG(order_value) AS avg_value
+FROM orders
+GROUP BY is_repeat_customer;
+
+-- Monthly Revenue Trend
+SELECT DATE_TRUNC('month', order_date) AS month, SUM(order_value) AS monthly_revenue
+FROM orders
+GROUP BY month
+ORDER BY month;
+
+-- Average Rating by Restaurant
+SELECT restaurant_name, AVG(rating) AS avg_rating
+FROM orders
+GROUP BY restaurant_name
+ORDER BY avg_rating DESC;
